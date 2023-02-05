@@ -19,7 +19,7 @@ error NotApprovedForMarketplace();
 error PriceMustBeAboveZero();
 
 
-contract AvianMarket is ReentrancyGuard {
+contract AvianMarkett is ReentrancyGuard {
 
     using Counters for Counters.Counter;
     using EnumerableSet for EnumerableSet.AddressSet;
@@ -369,13 +369,22 @@ contract AvianMarket is ReentrancyGuard {
 
     // Getter Functions
 
-    function getListing(        // Get a specific s_listing
+    function getASListing(        // Get a specific s_listing
         address nftAddress, 
         uint256 tokenId
     ) external view
         returns (Listing_sell memory)
     {
         return s_listings[nftAddress][tokenId];
+    }
+
+    function getARListing(        // Get a specific s_listing
+        address nftAddress, 
+        uint256 tokenId
+    ) external view
+        returns (Listing_rent memory)
+    {
+        return r_listings[nftAddress][tokenId];
     }
 
     function getProceeds(       // Get the proceeds available for a seller
@@ -429,6 +438,40 @@ contract AvianMarket is ReentrancyGuard {
         returns (uint256) 
     {
         return _listingFee;
+    }
+
+    function getSListedAdddresses(
+    ) public view 
+        returns (address[] memory) 
+    {
+        address[] memory nftContracts = EnumerableSet.values(s_address);
+        return nftContracts;
+    }
+
+    function getSListedAdddressTokens(
+        address nftAddress
+    ) public view 
+        returns (uint256[] memory) 
+    {
+        uint256[] memory tokens = EnumerableSet.values(s_address_tokens[nftAddress]);
+        return tokens;
+    }
+
+    function getRListedAdddresses(
+    ) public view 
+        returns (address[] memory) 
+    {
+        address[] memory nftContracts = EnumerableSet.values(r_address);
+        return nftContracts;
+    }
+
+    function getRListedAdddressTokens(
+        address nftAddress
+    ) public view 
+        returns (uint256[] memory) 
+    {
+        uint256[] memory tokens = EnumerableSet.values(r_address_tokens[nftAddress]);
+        return tokens;
     }
 
 
