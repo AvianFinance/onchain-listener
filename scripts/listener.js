@@ -2,8 +2,7 @@ const { ethers } = require("hardhat")
 const { amplace_token } = require('../config')
 const fs = require('fs');
 const Marketplace = JSON.parse(fs.readFileSync('./artifacts/contracts/AvianMarket.sol/AvianMarket.json', 'utf-8'))
-
-
+const {parentPort, workerData} = require("worker_threads");
 
 async function getTransfer(){
 
@@ -22,12 +21,14 @@ async function getTransfer(){
             price: price,
         }
 
-        console.log(JSON.stringify(transferEvent, null, 4))
+        parentPort.postMessage(transferEvent);
 
     })
 }
 
 getTransfer()
+
+
 
 module.exports = {
     getTransfer
